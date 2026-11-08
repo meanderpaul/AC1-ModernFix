@@ -2,7 +2,7 @@
 
 **Get Assassin's Creed: Director's Cut running on a modern Windows PC — no launch crash, working Xbox controller.**
 
-By **Meanderpaul_gaming** · [Watch the Short on YouTube](https://www.youtube.com/@meanderpaul_gaming/shorts)
+By **Meanderpaul_gaming** · [Watch the Short on YouTube](https://youtube.com/shorts/zE7y_Yyxaws)
 
 The Steam and GOG versions of Assassin's Creed (2008) often crash the moment you press Play on a current PC, and Xbox One / Series controllers do nothing even though the store page lists controller support. This repo packages a tested fix for both, built around the community's EaglePatch plus a small plugin of my own that fixes the many-core CPU crash on every launch path, including Steam's Play button.
 
