@@ -1,3 +1,4 @@
 build/obj/
 dist/
 *.zip
+!release/*.zip

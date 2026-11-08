@@ -19,7 +19,7 @@ You need the **original, unmodified** Steam or GOG game files. EaglePatch checks
 1. **Get the two community files** (official pages only):
    - **EaglePatchAC1.zip** by Sergeanur — [github.com/Sergeanur/EaglePatch/releases](https://github.com/Sergeanur/EaglePatch/releases)
    - **Ultimate-ASI-Loader.zip** by ThirteenAG — [direct download, v4.68](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v4.68/Ultimate-ASI-Loader.zip)
-2. **Get AC1AffinityFix** from this repo's [Releases page](https://github.com/meanderpaul/AC1-ModernFix/releases/latest).
+2. **Get AC1AffinityFix** — [download AC1AffinityFix-v1.0.zip](https://github.com/meanderpaul/AC1-ModernFix/raw/main/release/AC1AffinityFix-v1.0.zip) (or browse the [`release` folder](release/)).
 3. **Open your game folder.** In Steam: right-click Assassin's Creed → Manage → Browse local files.
 4. Copy **`dinput8.dll`** from the ASI Loader zip into the game folder.
 5. Create a folder called **`scripts`** inside the game folder.
@@ -42,7 +42,7 @@ Assassins Creed\
     └── AC1AffinityFix.ini
 ```
 
-The release zip also has an `install.bat` that checks your folder and copies the AC1AffinityFix files into `scripts` for you.
+The download zip also has an `install.bat` that checks your folder and copies the AC1AffinityFix files into `scripts` for you.
 
 ## Recommended settings
 

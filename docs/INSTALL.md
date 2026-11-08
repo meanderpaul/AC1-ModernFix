@@ -48,7 +48,7 @@ Use the 32-bit (x86) build. The v4.68 link above is the right one.
 
 ## Step 5 — Install AC1AffinityFix
 
-1. Download **AC1AffinityFix-v1.0.zip** from this repo's [Releases page](https://github.com/meanderpaul/AC1-ModernFix/releases/latest).
+1. Download [**AC1AffinityFix-v1.0.zip**](https://github.com/meanderpaul/AC1-ModernFix/raw/main/release/AC1AffinityFix-v1.0.zip) from this repo's `release` folder.
 2. Either:
    - copy `AC1AffinityFix.asi` and `AC1AffinityFix.ini` into `scripts`, **or**
    - extract the zip into the game folder and double-click `install.bat`. It checks that the ASI Loader and EaglePatch are present and copies the files for you.
