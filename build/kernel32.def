@@ -1,0 +1,8 @@
+LIBRARY kernel32.dll
+EXPORTS
+GetCurrentProcess@0
+GetProcessAffinityMask@12
+SetProcessAffinityMask@8
+GetPrivateProfileIntA@16
+GetModuleFileNameA@12
+DisableThreadLibraryCalls@4
