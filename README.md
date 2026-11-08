@@ -2,7 +2,7 @@
 
 **Get Assassin's Creed: Director's Cut running on a modern Windows PC — no launch crash, working Xbox controller.**
 
-By **Meanderpaul_gaming**
+By **Meanderpaul_gaming** · [Watch the Short on YouTube](https://www.youtube.com/@meanderpaul_gaming/shorts)
 
 The Steam and GOG versions of Assassin's Creed (2008) often crash the moment you press Play on a current PC, and Xbox One / Series controllers do nothing even though the store page lists controller support. This repo packages a tested fix for both, built around the community's EaglePatch plus a small plugin of my own that fixes the many-core CPU crash on every launch path, including Steam's Play button.
 
@@ -19,7 +19,7 @@ You need the **original, unmodified** Steam or GOG game files. EaglePatch checks
 1. **Get the two community files** (official pages only):
    - **EaglePatchAC1.zip** by Sergeanur — [github.com/Sergeanur/EaglePatch/releases](https://github.com/Sergeanur/EaglePatch/releases)
    - **Ultimate-ASI-Loader.zip** by ThirteenAG — [direct download, v4.68](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v4.68/Ultimate-ASI-Loader.zip)
-2. **Get AC1AffinityFix** — [download AC1AffinityFix-v1.0.zip](https://github.com/meanderpaul/AC1-ModernFix/raw/main/release/AC1AffinityFix-v1.0.zip) (or browse the [`release` folder](release/)).
+2. **Get AC1AffinityFix** — download `AC1AffinityFix-v1.0.zip` from the [latest release](https://github.com/meanderpaul/AC1-ModernFix/releases/latest) (also in the [`release` folder](release/)).
 3. **Open your game folder.** In Steam: right-click Assassin's Creed → Manage → Browse local files.
 4. Copy **`dinput8.dll`** from the ASI Loader zip into the game folder.
 5. Create a folder called **`scripts`** inside the game folder.

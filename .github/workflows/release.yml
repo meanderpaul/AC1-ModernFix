@@ -1,0 +1,49 @@
+name: Release
+
+# Builds AC1AffinityFix and publishes a GitHub Release with the zip attached.
+# Runs when a version tag (v1.0, v1.1, ...) is pushed, or manually from the Actions tab.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v1.0)"
+        required: true
+        default: "v1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang + lld
+        run: sudo apt-get update && sudo apt-get install -y clang-18 lld-18 llvm-18
+
+      - name: Build AC1AffinityFix.asi
+        env:
+          CLANG: clang-18
+          LLVM_BIN: /usr/lib/llvm-18/bin
+        run: ./build.sh
+
+      - name: Package zip
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          mkdir -p pkg
+          cp dist/AC1AffinityFix.asi release/AC1AffinityFix.ini release/install.bat pkg/
+          (cd pkg && zip -9 "../AC1AffinityFix-$TAG.zip" AC1AffinityFix.asi AC1AffinityFix.ini install.bat)
+          unzip -l "AC1AffinityFix-$TAG.zip"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$TAG" "AC1AffinityFix-$TAG.zip" \
+            --title "AC1 Modern Fix $TAG" \
+            --notes-file .github/release-notes.md \
+            --target "${{ github.sha }}"
