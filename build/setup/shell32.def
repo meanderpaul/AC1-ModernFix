@@ -1,0 +1,5 @@
+LIBRARY shell32.dll
+EXPORTS
+SHBrowseForFolderW@4
+SHGetPathFromIDListW@8
+ShellExecuteW@24

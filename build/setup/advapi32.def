@@ -1,0 +1,12 @@
+LIBRARY advapi32.dll
+EXPORTS
+CryptAcquireContextW@20
+CryptCreateHash@20
+CryptDestroyHash@4
+CryptGetHashParam@20
+CryptHashData@16
+CryptReleaseContext@8
+RegCloseKey@4
+RegEnumKeyExW@32
+RegOpenKeyExW@20
+RegQueryValueExW@24

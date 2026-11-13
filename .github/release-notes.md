@@ -1,10 +1,19 @@
-Fixes Assassin's Creed: Director's Cut crashing on launch on modern many-core CPUs, from every launch path (Steam's Play button, shortcuts, the exe).
+Fixes Assassin's Creed: Director's Cut crashing on launch on modern many-core CPUs, and gets Xbox One / Series controllers working.
 
-**Download the AC1AffinityFix zip below.** It contains:
-- `AC1AffinityFix.asi`: the plugin (32-bit, 2.5 KB, imports only kernel32)
-- `AC1AffinityFix.ini`: settings (`MaxCPUs=8`, `Enabled=1`)
-- `install.bat`: copies the plugin into `scripts\` and checks the other pieces are installed
+### Easiest: the one-click installer
 
-This plugin is one part of the fix. For the full fix, including Xbox controller support, you also need **EaglePatch** by Sergeanur and **Ultimate ASI Loader** by ThirteenAG. Follow the [install guide](https://github.com/meanderpaul/AC1-ModernFix/blob/main/docs/INSTALL.md).
+Download **AC1ModernFix-Setup** below, unzip it, and run `AC1ModernFix-Setup.exe`. It:
+- finds your Steam or GOG copy of the game
+- checks your game exe is one EaglePatch supports
+- downloads **Ultimate ASI Loader** (ThirteenAG) and **EaglePatch** (Sergeanur) from their official GitHub releases and checks their hashes
+- installs **AC1AffinityFix** (the many-core CPU crash fix)
+- installs the DirectX controller runtime if `xinput1_3.dll` is missing
+- can uninstall everything again
+
+Windows may show "Windows protected your PC" because the installer isn't code-signed yet. Click **More info → Run anyway**.
+
+### Manual install
+
+**AC1AffinityFix** zip: the plugin (32-bit, 2.5 KB, imports only kernel32), its ini and `install.bat`. You also need EaglePatch and Ultimate ASI Loader; follow the [install guide](https://github.com/meanderpaul/AC1-ModernFix/blob/main/docs/INSTALL.md).
 
 Watch the fix in action: [Meanderpaul_gaming on YouTube](https://www.youtube.com/@meanderpaul_gaming/shorts)

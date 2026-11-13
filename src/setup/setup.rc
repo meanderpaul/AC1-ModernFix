@@ -1,0 +1,31 @@
+// Resources for AC1ModernFix-Setup.exe. Paths are relative to the repo root (build.sh runs llvm-rc there).
+1 ICON "src/setup/app.ico"
+1 24 "src/setup/app.manifest"
+101 RCDATA "dist/AC1AffinityFix.asi"
+102 RCDATA "release/AC1AffinityFix.ini"
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,1,0,0
+FILEOS 0x4
+FILETYPE 0x1
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904B0"
+    BEGIN
+      VALUE "CompanyName", "Meanderpaul_gaming"
+      VALUE "FileDescription", "AC1 Modern Fix Setup"
+      VALUE "FileVersion", "1.1.0"
+      VALUE "InternalName", "AC1ModernFix-Setup"
+      VALUE "LegalCopyright", "(c) 2026 Meanderpaul_gaming. MIT License."
+      VALUE "OriginalFilename", "AC1ModernFix-Setup.exe"
+      VALUE "ProductName", "AC1 Modern Fix"
+      VALUE "ProductVersion", "1.1.0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

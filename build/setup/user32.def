@@ -1,0 +1,26 @@
+LIBRARY user32.dll
+EXPORTS
+AdjustWindowRect@12
+CreateWindowExW@48
+DefWindowProcW@16
+DestroyWindow@4
+DispatchMessageW@4
+EnableWindow@8
+GetDC@4
+GetMessageW@16
+GetSystemMetrics@4
+GetWindowTextW@12
+IsDialogMessageW@8
+LoadCursorW@8
+LoadIconW@8
+MessageBoxW@16
+PostMessageW@16
+PostQuitMessage@4
+RegisterClassExW@4
+ReleaseDC@8
+SendMessageW@16
+SetWindowTextW@8
+ShowWindow@8
+TranslateMessage@4
+UpdateWindow@4
+wvsprintfW@12

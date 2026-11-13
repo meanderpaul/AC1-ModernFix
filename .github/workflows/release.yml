@@ -24,7 +24,7 @@ jobs:
       - name: Install clang + lld
         run: sudo apt-get update && sudo apt-get install -y clang-18 lld-18 llvm-18
 
-      - name: Build AC1AffinityFix.asi
+      - name: Build everything
         env:
           CLANG: clang-18
           LLVM_BIN: /usr/lib/llvm-18/bin
@@ -38,12 +38,16 @@ jobs:
           cp dist/AC1AffinityFix.asi release/AC1AffinityFix.ini release/install.bat pkg/
           (cd pkg && zip -9 "../AC1AffinityFix-$TAG.zip" AC1AffinityFix.asi AC1AffinityFix.ini install.bat)
           unzip -l "AC1AffinityFix-$TAG.zip"
+          (cd dist && zip -9 "../AC1ModernFix-Setup-$TAG.zip" AC1ModernFix-Setup.exe)
+          mkdir -p mcf && cp dist/ManyCoreFix.asi dist/ManyCoreFix64.asi release/ManyCoreFix.ini docs/MANYCOREFIX.md mcf/
+          (cd mcf && zip -9 "../ManyCoreFix-$TAG.zip" *)
+          unzip -l "AC1ModernFix-Setup-$TAG.zip"
 
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$TAG" "AC1AffinityFix-$TAG.zip" \
+          gh release create "$TAG" "AC1ModernFix-Setup-$TAG.zip" "AC1AffinityFix-$TAG.zip" "ManyCoreFix-$TAG.zip" \
             --title "AC1 Modern Fix $TAG" \
             --notes-file .github/release-notes.md \
             --target "${{ github.sha }}"

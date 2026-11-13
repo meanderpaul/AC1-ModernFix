@@ -1,0 +1,55 @@
+name: CI
+
+# On every push and pull request: build everything on Linux with warnings as errors, then load
+# ManyCoreFix into a test program on real Windows (32- and 64-bit) and check it works.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang + lld
+        run: sudo apt-get update && sudo apt-get install -y clang-18 lld-18 llvm-18
+      - name: Build and check
+        env:
+          CLANG: clang-18
+          LLVM_BIN: /usr/lib/llvm-18/bin
+        run: ./build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  test-windows:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: ManyCoreFix limits CPUs (32-bit and 64-bit)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          "Runner has $env:NUMBER_OF_PROCESSORS logical CPUs"
+          $failed = $false
+          foreach ($a in @(@{asi="ManyCoreFix.asi"; exe="ManyCoreFixTest.exe"}, @{asi="ManyCoreFix64.asi"; exe="ManyCoreFixTest64.exe"})) {
+            $ini = "dist\" + [IO.Path]::ChangeExtension($a.asi, ".ini")
+            "[ManyCoreFix]`r`nEnabled=1`r`nMaxCPUs=2`r`nSpoofCPUCount=1`r`nSetEnvironment=1`r`nLog=1`r`n" | Set-Content -Encoding ascii $ini
+            "== $($a.asi)"
+            & "dist\tests\$($a.exe)" (Resolve-Path "dist\$($a.asi)").Path 2
+            if ($LASTEXITCODE -ne 0) { $failed = $true }
+            Get-Content ("dist\" + [IO.Path]::ChangeExtension($a.asi, ".log"))
+          }
+          if ($failed) { exit 1 }
+      - name: AC1AffinityFix limits CPUs (32-bit)
+        shell: pwsh
+        run: |
+          "[AC1AffinityFix]`r`nEnabled=1`r`nMaxCPUs=2`r`n" | Set-Content -Encoding ascii dist\AC1AffinityFix.ini
+          & dist\tests\ManyCoreFixTest.exe (Resolve-Path dist\AC1AffinityFix.asi).Path 2 affinity
+          if ($LASTEXITCODE -ne 0) { exit 1 }
