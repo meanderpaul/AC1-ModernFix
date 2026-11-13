@@ -7,7 +7,7 @@ Many games from roughly 2005–2014 were written for 2–4 core CPUs. On a moder
 ManyCoreFix is a tiny plugin, grown out of [AC1AffinityFix](HOW-IT-WORKS.md), that applies the fix from inside the game on every launch:
 
 1. **Limits the game to `MaxCPUs` threads** (CPU affinity).
-2. **Makes the game see only `MaxCPUs` CPUs** (`SpoofCPUCount=1`). Some games crash just from *counting* too many CPUs, even when limited. ManyCoreFix makes `GetSystemInfo`, `GetNativeSystemInfo`, `GetActiveProcessorCount` and `GetMaximumProcessorCount` report the lower number to the game, and sets `NUMBER_OF_PROCESSORS` for the game process.
+2. **Makes the game see only `MaxCPUs` CPUs** (`SpoofCPUCount=1`). Some games crash just from *counting* too many CPUs, even when limited. ManyCoreFix makes `GetSystemInfo`, `GetNativeSystemInfo`, `GetActiveProcessorCount` and `GetMaximumProcessorCount` report the lower number to the game.
 
 It changes no game files, and CI tests it on Windows on every build (see [`tests/`](../tests)).
 
@@ -30,7 +30,6 @@ It changes no game files, and CI tests it on Windows on every build (see [`tests
 | `Enabled` | 1 | 0 turns the plugin off |
 | `MaxCPUs` | 8 | Threads the game may use. Still crashing? Try 4, then 2 |
 | `SpoofCPUCount` | 1 | Make the game see only `MaxCPUs` CPUs |
-| `SetEnvironment` | 1 | Also set `NUMBER_OF_PROCESSORS` for the game |
 | `Log` | 1 | Write a log each launch |
 
 ## Games to try it on

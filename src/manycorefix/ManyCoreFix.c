@@ -4,8 +4,7 @@
    1. Limits the game to MaxCPUs logical CPUs (SetProcessAffinityMask), like AC1AffinityFix.
    2. Optionally makes the game *see* only MaxCPUs CPUs, for games that crash just from counting
       too many: patches the game exe's import table so GetSystemInfo, GetNativeSystemInfo,
-      GetActiveProcessorCount and GetMaximumProcessorCount report at most MaxCPUs, and sets the
-      NUMBER_OF_PROCESSORS environment variable for the game process.
+      GetActiveProcessorCount and GetMaximumProcessorCount report at most MaxCPUs.
    Settings: ManyCoreFix.ini next to the .asi. Optional log: ManyCoreFix.log next to the .asi.
 
    No C runtime, no Windows SDK. Copyright (c) 2026 Meanderpaul_gaming. MIT License. */
@@ -32,8 +31,6 @@ IMP BOOL WINAPI GetProcessAffinityMask(HANDLE, DWORD_PTR *, DWORD_PTR *);
 IMP BOOL WINAPI SetProcessAffinityMask(HANDLE, DWORD_PTR);
 IMP BOOL WINAPI VirtualProtect(LPVOID, SIZE_T, DWORD, DWORD *);
 IMP BOOL WINAPI DisableThreadLibraryCalls(HMODULE);
-IMP BOOL WINAPI SetEnvironmentVariableW(LPCWSTR, LPCWSTR);
-IMP DWORD WINAPI GetEnvironmentVariableW(LPCWSTR, WCHAR *, DWORD);
 IMP HANDLE WINAPI CreateFileW(LPCWSTR, DWORD, DWORD, LPVOID, DWORD, DWORD, HANDLE);
 IMP BOOL WINAPI WriteFile(HANDLE, const void *, DWORD, DWORD *, LPVOID);
 IMP BOOL WINAPI CloseHandle(HANDLE);
@@ -114,8 +111,8 @@ static int patch_iat(BYTE *base) {
 }
 
 static void apply(HMODULE self) {
-    WCHAR ini[MAXP], logp[MAXP], num[12]; DWORD n = GetModuleFileNameW(self, ini, MAXP - 4), i;
-    int enabled = 1, maxCpus = 8, spoof = 1, env = 1, logOn = 0, count = 0, h;
+    WCHAR ini[MAXP], logp[MAXP]; DWORD n = GetModuleFileNameW(self, ini, MAXP - 4), i;
+    int enabled = 1, maxCpus = 8, spoof = 1, logOn = 0, count = 0, h;
     DWORD_PTR proc = 0, sys = 0, mask = 0; HANDLE cur = GetCurrentProcess();
     HMODULE k32 = GetModuleHandleW(L"kernel32.dll"), kb = GetModuleHandleW(L"kernelbase.dll");
 
@@ -126,7 +123,6 @@ static void apply(HMODULE self) {
         enabled = (int)GetPrivateProfileIntW(L"ManyCoreFix", L"Enabled", 1, ini);
         maxCpus = (int)GetPrivateProfileIntW(L"ManyCoreFix", L"MaxCPUs", 8, ini);
         spoof = (int)GetPrivateProfileIntW(L"ManyCoreFix", L"SpoofCPUCount", 1, ini);
-        env = (int)GetPrivateProfileIntW(L"ManyCoreFix", L"SetEnvironment", 1, ini);
         logOn = (int)GetPrivateProfileIntW(L"ManyCoreFix", L"Log", 1, ini);
         if (logOn) {
             g_log = CreateFileW(logp, 0x40000000ul /* GENERIC_WRITE */, 1, 0, 2 /* CREATE_ALWAYS */, 0x80, 0);
@@ -136,7 +132,7 @@ static void apply(HMODULE self) {
     log_s("ManyCoreFix 1.0 (");
     log_s(sizeof(void *) == 8 ? "64-bit" : "32-bit");
     log_s(")\r\nEnabled="); log_u((unsigned)enabled); log_s(" MaxCPUs="); log_u((unsigned)maxCpus);
-    log_s(" SpoofCPUCount="); log_u((unsigned)spoof); log_s(" SetEnvironment="); log_u((unsigned)env); log_s("\r\n");
+    log_s(" SpoofCPUCount="); log_u((unsigned)spoof); log_s("\r\n");
     if (!enabled || maxCpus < 1) { log_s("Disabled, nothing changed.\r\n"); goto done; }
 
     /* 1. affinity */
@@ -159,18 +155,6 @@ static void apply(HMODULE self) {
         h = patch_iat((BYTE *)GetModuleHandleW(0));
         log_s("Game sees at most "); log_u((unsigned)maxCpus); log_s(" CPUs ("); log_u((unsigned)h);
         log_s(" imports patched)\r\n");
-    }
-    if (env && GetActiveProcessorCount(0xFFFF /* all groups */) > (DWORD)maxCpus) {
-        int v = maxCpus, j = 0; WCHAR t[12];
-        do { t[j++] = (WCHAR)('0' + v % 10); v /= 10; } while (v && j < 11);
-        for (i = 0; i < (DWORD)j; i++) num[i] = t[j - 1 - i];
-        num[j] = 0;
-        if (SetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", num)) {
-            WCHAR back[12]; DWORD bn = GetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", back, 12), q;
-            log_s("NUMBER_OF_PROCESSORS="); log_u((unsigned)maxCpus); log_s(" (reads back ");
-            for (q = 0; q < bn && q < 11; q++) { char ch[2]; ch[0] = (char)back[q]; ch[1] = 0; log_s(ch); }
-            log_s(")\r\n");
-        }
     }
 done:
     if (g_log) { CloseHandle(g_log); g_log = 0; }

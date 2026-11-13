@@ -22,7 +22,6 @@ IMP DWORD WINAPI GetActiveProcessorCount(WORD);
 IMP HANDLE WINAPI GetCurrentProcess(void);
 IMP BOOL WINAPI GetProcessAffinityMask(HANDLE, DWORD_PTR *, DWORD_PTR *);
 IMP HMODULE WINAPI LoadLibraryW(LPCWSTR);
-IMP DWORD WINAPI GetEnvironmentVariableW(LPCWSTR, WCHAR *, DWORD);
 IMP HANDLE WINAPI GetStdHandle(DWORD);
 IMP BOOL WINAPI WriteFile(HANDLE, const void *, DWORD, DWORD *, LPVOID);
 IMP LPCWSTR WINAPI GetCommandLineW(void);
@@ -39,7 +38,7 @@ static DWORD bits(DWORD_PTR m) { DWORD n = 0; while (m) { n += (DWORD)(m & 1); m
 
 void entry(void) {
     static WCHAR path[520]; LPCWSTR c = GetCommandLineW(); SYSTEM_INFO si; DWORD_PTR proc, sys;
-    DWORD before, want, maxc = 0, i = 0; WCHAR env[16]; DWORD envv = 0; int affOnly;
+    DWORD before, want, maxc = 0, i = 0; int affOnly;
 
     /* argv[1] = plugin path, argv[2] = MaxCPUs */
     if (*c == '"') { c++; while (*c && *c != '"') c++; if (*c) c++; } else while (*c && *c != ' ') c++;
@@ -71,13 +70,6 @@ void entry(void) {
     check("GetActiveProcessorCount", GetActiveProcessorCount(0xFFFF), want);
     if (GetProcessAffinityMask(GetCurrentProcess(), &proc, &sys)) check("Process affinity CPUs", bits(proc), want);
     else { out("FAIL GetProcessAffinityMask\r\n"); g_fail = 1; }
-    if (before > maxc) {
-        DWORD n = GetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", env, 16);
-        out("NUMBER_OF_PROCESSORS raw length "); outu(n); out(" value ");
-        for (i = 0; i < n && i < 15; i++) { char ch[2]; ch[0] = (char)env[i]; ch[1] = 0; out(ch); envv = envv * 10 + (DWORD)(env[i] - '0'); }
-        out("\r\n");
-        check("NUMBER_OF_PROCESSORS", envv, want);
-    }
     out(g_fail ? "RESULT: FAIL\r\n" : "RESULT: PASS\r\n");
     ExitProcess(g_fail ? 1 : 0);
 }

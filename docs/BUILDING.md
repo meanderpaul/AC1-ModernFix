@@ -29,7 +29,7 @@ Warnings are treated as errors, and `tools/check-build.sh` runs at the end to ch
 `.github/workflows/ci.yml` runs on every push and pull request:
 
 1. **Build** on Linux with `./build.sh`.
-2. **Test on Windows:** loads each plugin into `ManyCoreFixTest.exe`, which stands in for a game, with `MaxCPUs=2`. It checks that the affinity is limited and, for ManyCoreFix, that `GetSystemInfo`, `GetNativeSystemInfo`, `GetActiveProcessorCount` and `NUMBER_OF_PROCESSORS` all report 2. Both the 32-bit and 64-bit builds are tested.
+2. **Test on Windows:** loads each plugin into `ManyCoreFixTest.exe`, which stands in for a game, with `MaxCPUs=2`. It checks that the affinity is limited and, for ManyCoreFix, that `GetSystemInfo`, `GetNativeSystemInfo`, and `GetActiveProcessorCount` all report 2. Both the 32-bit and 64-bit builds are tested.
 
 Pushing a tag such as `v1.1` runs `release.yml`, which builds and publishes the release zips.
 

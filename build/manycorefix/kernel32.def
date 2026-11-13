@@ -7,7 +7,6 @@ ExitProcess@4
 GetActiveProcessorCount@4
 GetCommandLineW@0
 GetCurrentProcess@0
-GetEnvironmentVariableW@12
 GetMaximumProcessorCount@4
 GetModuleFileNameW@12
 GetModuleHandleW@4
@@ -18,7 +17,6 @@ GetProcessAffinityMask@12
 GetStdHandle@4
 GetSystemInfo@4
 LoadLibraryW@4
-SetEnvironmentVariableW@8
 SetProcessAffinityMask@8
 VirtualProtect@16
 WriteFile@20
