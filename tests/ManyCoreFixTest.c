@@ -73,7 +73,9 @@ void entry(void) {
     else { out("FAIL GetProcessAffinityMask\r\n"); g_fail = 1; }
     if (before > maxc) {
         DWORD n = GetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", env, 16);
-        for (i = 0; i < n; i++) envv = envv * 10 + (DWORD)(env[i] - '0');
+        out("NUMBER_OF_PROCESSORS raw length "); outu(n); out(" value ");
+        for (i = 0; i < n && i < 15; i++) { char ch[2]; ch[0] = (char)env[i]; ch[1] = 0; out(ch); envv = envv * 10 + (DWORD)(env[i] - '0'); }
+        out("\r\n");
         check("NUMBER_OF_PROCESSORS", envv, want);
     }
     out(g_fail ? "RESULT: FAIL\r\n" : "RESULT: PASS\r\n");

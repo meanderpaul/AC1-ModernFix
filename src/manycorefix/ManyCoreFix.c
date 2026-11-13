@@ -33,6 +33,7 @@ IMP BOOL WINAPI SetProcessAffinityMask(HANDLE, DWORD_PTR);
 IMP BOOL WINAPI VirtualProtect(LPVOID, SIZE_T, DWORD, DWORD *);
 IMP BOOL WINAPI DisableThreadLibraryCalls(HMODULE);
 IMP BOOL WINAPI SetEnvironmentVariableW(LPCWSTR, LPCWSTR);
+IMP DWORD WINAPI GetEnvironmentVariableW(LPCWSTR, WCHAR *, DWORD);
 IMP HANDLE WINAPI CreateFileW(LPCWSTR, DWORD, DWORD, LPVOID, DWORD, DWORD, HANDLE);
 IMP BOOL WINAPI WriteFile(HANDLE, const void *, DWORD, DWORD *, LPVOID);
 IMP BOOL WINAPI CloseHandle(HANDLE);
@@ -164,7 +165,12 @@ static void apply(HMODULE self) {
         do { t[j++] = (WCHAR)('0' + v % 10); v /= 10; } while (v && j < 11);
         for (i = 0; i < (DWORD)j; i++) num[i] = t[j - 1 - i];
         num[j] = 0;
-        if (SetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", num)) { log_s("NUMBER_OF_PROCESSORS="); log_u((unsigned)maxCpus); log_s("\r\n"); }
+        if (SetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", num)) {
+            WCHAR back[12]; DWORD bn = GetEnvironmentVariableW(L"NUMBER_OF_PROCESSORS", back, 12), q;
+            log_s("NUMBER_OF_PROCESSORS="); log_u((unsigned)maxCpus); log_s(" (reads back ");
+            for (q = 0; q < bn && q < 11; q++) { char ch[2]; ch[0] = (char)back[q]; ch[1] = 0; log_s(ch); }
+            log_s(")\r\n");
+        }
     }
 done:
     if (g_log) { CloseHandle(g_log); g_log = 0; }
