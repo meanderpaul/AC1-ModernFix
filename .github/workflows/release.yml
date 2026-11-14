@@ -12,6 +12,10 @@ on:
         description: "Release tag (e.g. v1.0)"
         required: true
         default: "v1.0"
+      draft:
+        description: "Create as a draft (only visible to you until you publish it)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -87,4 +91,4 @@ jobs:
           gh release create "$TAG" "AC1ModernFix-Setup-$TAG.zip" "AC1AffinityFix-$TAG.zip" "ManyCoreFix-$TAG.zip" \
             --title "AC1 Modern Fix $TAG" \
             --notes-file .github/release-notes.md \
-            --target "${{ github.sha }}"
+            --target "${{ github.sha }}" ${{ inputs.draft && '--draft' || '' }}
