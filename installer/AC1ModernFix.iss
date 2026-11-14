@@ -213,8 +213,8 @@ begin
             (MsgBox('Your ' + GameExe + ' has been modified, or it''s a version EaglePatch doesn''t support ' +
                     '(for example the Ubisoft Connect version).' + #13#10#13#10 +
                     'The CPU crash fix will still work, but Xbox controller support won''t load until you restore the ' +
-                    'original exe. In Steam: right-click the game > Properties > Installed Files > Verify integrity of game files.' +
-                    #13#10#13#10 + 'Install anyway?', mbConfirmation, MB_YESNO) = IDNO) then
+                    'original exe. In Steam: right-click the game > Properties > Installed Files > Verify integrity of game files.' + #13#10#13#10 +
+                    'Install anyway?', mbConfirmation, MB_YESNO) = IDNO) then
       Result := False;
   end
   else if CurPageID = wpReady then
