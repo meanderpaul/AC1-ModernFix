@@ -53,3 +53,26 @@ jobs:
           "[AC1AffinityFix]`r`nEnabled=1`r`nMaxCPUs=2`r`n" | Set-Content -Encoding ascii dist\AC1AffinityFix.ini
           & dist\tests\ManyCoreFixTest.exe (Resolve-Path dist\AC1AffinityFix.asi).Path 2 affinity
           if ($LASTEXITCODE -ne 0) { exit 1 }
+
+  installer:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Build AC1ModernFix-Setup.exe with Inno Setup
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress; }
+          & $iscc /Q installer\AC1ModernFix.iss
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          Get-Item dist\AC1ModernFix-Setup.exe | Select-Object Name, Length
+          Get-FileHash dist\AC1ModernFix-Setup.exe -Algorithm SHA256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AC1ModernFix-Setup
+          path: dist/AC1ModernFix-Setup.exe

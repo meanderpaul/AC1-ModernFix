@@ -22,8 +22,4 @@ check dist/ManyCoreFix.asi IMAGE_FILE_MACHINE_I386 "kernel32.dll"
 check dist/ManyCoreFix64.asi IMAGE_FILE_MACHINE_AMD64 "kernel32.dll"
 check dist/tests/ManyCoreFixTest.exe IMAGE_FILE_MACHINE_I386 "kernel32.dll"
 check dist/tests/ManyCoreFixTest64.exe IMAGE_FILE_MACHINE_AMD64 "kernel32.dll"
-check dist/AC1ModernFix-Setup.exe IMAGE_FILE_MACHINE_I386 \
-  "kernel32.dll user32.dll gdi32.dll advapi32.dll shell32.dll ole32.dll urlmon.dll comctl32.dll"
-"$LLVM_BIN/llvm-readobj" --coff-resources dist/AC1ModernFix-Setup.exe | grep -q "MANIFEST" \
-  || { echo "FAIL setup has no manifest"; fail=1; }
 [ $fail = 0 ] && echo "All build checks passed." || exit 1

@@ -16,9 +16,9 @@ The Steam and GOG versions of Assassin's Creed (2008) often crash the moment you
 
 1. Download **AC1ModernFix-Setup** from the [latest release](https://github.com/meanderpaul/AC1-ModernFix/releases/latest).
 2. Unzip it and run **`AC1ModernFix-Setup.exe`**. Windows may say "Windows protected your PC" because the installer isn't code-signed yet: click **More info → Run anyway**.
-3. Check it found your game folder, click **Install**, then **Launch game**.
+3. Check it found your game folder, click through to **Install**, then tick **Launch Assassin's Creed** on the last page.
 
-The installer finds your Steam or GOG copy, downloads EaglePatch and Ultimate ASI Loader from their official GitHub releases (and checks their hashes), installs AC1AffinityFix, and installs the DirectX controller runtime if it's missing. Run it again and click **Uninstall** to remove everything. It writes a log to `AC1ModernFix-install.log` in your game folder.
+The installer finds your Steam or GOG copy, downloads EaglePatch and Ultimate ASI Loader from their official GitHub releases (and checks their hashes), installs AC1AffinityFix, and installs the DirectX controller runtime if it's missing. To remove everything, uninstall **AC1 Modern Fix** from Windows Settings → Apps → Installed apps.
 
 Prefer to do it by hand? Follow the steps below.
 

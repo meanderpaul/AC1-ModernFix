@@ -1,7 +1,0 @@
-LIBRARY gdi32.dll
-EXPORTS
-CreateFontW@56
-GetDeviceCaps@8
-GetStockObject@4
-SetBkColor@8
-SetTextColor@8

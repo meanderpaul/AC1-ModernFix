@@ -1,3 +1,0 @@
-LIBRARY urlmon.dll
-EXPORTS
-URLDownloadToFileW@20

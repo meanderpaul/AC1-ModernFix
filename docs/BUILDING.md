@@ -19,7 +19,6 @@ Outputs:
 
 - `dist/AC1AffinityFix.asi`: the AC1 plugin, a 32-bit Windows DLL of about 2.5 KB that imports only `kernel32.dll`.
 - `dist/ManyCoreFix.asi` / `dist/ManyCoreFix64.asi`: the general many-core fix for 32- and 64-bit games.
-- `dist/AC1ModernFix-Setup.exe`: the one-click installer (about 65 KB), with the AC1 plugin embedded.
 - `dist/tests/ManyCoreFixTest*.exe`: test programs that CI runs on Windows.
 
 Warnings are treated as errors, and `tools/check-build.sh` runs at the end to check each file's CPU type and that it imports only the expected Windows DLLs. If `./build.sh` finishes, the build is clean.
@@ -41,22 +40,26 @@ Pushing a tag such as `v1.1` runs `release.yml`, which builds and publishes the 
 2. `clang` compiles `src/AC1AffinityFix.c` for 32-bit Windows without builtins or stack probes.
 3. `lld-link` links it as a DLL with `DllMain` as the entry point and no default libraries.
 
-**Installer** (`src/setup/`)
+**Installer** (`installer/AC1ModernFix.iss`)
 
-1. `llvm-dlltool` creates an import library for each Windows DLL the installer calls, from `build/setup/*.def`. If you call a new Windows function, add its decorated name (`Name@bytes-of-arguments`) to the right `.def` file.
-2. `llvm-rc` compiles `src/setup/setup.rc`: the icon, the manifest (admin rights, modern controls, DPI awareness), version info, and the freshly built `AC1AffinityFix.asi` plus its ini as embedded resources.
-3. `clang` compiles `src/setup/AC1ModernFixSetup.c` and `lld-link` links the GUI exe with `entry` as its entry point.
+The AC1 one-click installer is built with [Inno Setup 6](https://jrsoftware.org/isinfo.php), a widely used installer tool, on Windows. After `./build.sh`:
+
+```bat
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\AC1ModernFix.iss
+```
+
+It writes `dist\AC1ModernFix-Setup.exe`. CI does this on every push, on a Windows runner.
 
 ## What the installer downloads
 
-EaglePatch has no license, so it is never bundled. The installer downloads these exact files from their official GitHub releases, and refuses them if the MD5 doesn't match:
+EaglePatch has no license, so it is never bundled. The installer downloads these exact files from their official GitHub releases, and refuses them if the SHA-256 doesn't match:
 
-| File | Source | MD5 |
+| File | Source | SHA-256 |
 |---|---|---|
-| `Ultimate-ASI-Loader.zip` | ThirteenAG/Ultimate-ASI-Loader v4.68 | `f185127bd44fe3dd55cd176dc4c007cb` |
-| `EaglePatchAC1.zip` | Sergeanur/EaglePatch v1.1 | `a5dce4980c3a47c924157ec6c4cef9a2` |
+| `Ultimate-ASI-Loader.zip` | ThirteenAG/Ultimate-ASI-Loader v4.68 | `7517c7d5bd8c475f18e6545b7998df379eed6e2e0a19fcd2139669152f9bcddb` |
+| `EaglePatchAC1.zip` | Sergeanur/EaglePatch v1.1 | `6dc496ac6b298b92fb70c3f90a34e323f77ac88e6ea97544f84e52435038aeea` |
 
-If a user already has either zip next to the installer or in their Downloads folder, and it matches, that copy is used instead. When EaglePatch releases a new version, update the URL and hash in `AC1ModernFixSetup.c` (`EP_PKG`).
+When EaglePatch releases a new version, update `EpUrl` and `EpSha256` in `installer/AC1ModernFix.iss`.
 
 ## Building the AC1 plugin with Visual Studio instead
 

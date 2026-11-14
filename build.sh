@@ -3,9 +3,9 @@
 #   dist/AC1AffinityFix.asi        AC1 plugin (32-bit)
 #   dist/ManyCoreFix.asi           many-core fix for 32-bit games
 #   dist/ManyCoreFix64.asi         many-core fix for 64-bit games
-#   dist/AC1ModernFix-Setup.exe    one-click AC1 installer (32-bit, plugin embedded)
 #   dist/tests/ManyCoreFixTest*.exe  test programs, run by CI on Windows
 # Warnings are errors, so a build either comes out clean or fails.
+# The AC1 installer (installer/AC1ModernFix.iss) is built afterwards with Inno Setup on Windows (CI does it).
 set -e
 cd "$(dirname "$0")"
 LLVM_BIN="${LLVM_BIN:-$(dirname "$(command -v lld-link || echo /usr/lib/llvm-18/bin/lld-link)")}"
@@ -54,18 +54,5 @@ for a in x86 x64; do
   cc $a tests/ManyCoreFixTest.c "$OBJ/$a/ManyCoreFixTest.obj"
   link $a exe entry "dist/tests/ManyCoreFixTest$suffix.exe" /subsystem:console "$OBJ/$a/ManyCoreFixTest.obj" "$OBJ/$a/mcf-kernel32.lib"
 done
-
-# AC1ModernFix-Setup.exe (32-bit): import libs, resources (icon, manifest, embedded plugin), link
-LIBS=""
-for def in build/setup/*.def; do
-  lib="$OBJ/x86/setup-$(basename "$def" .def).lib"
-  implib "$def" x86 "$lib"
-  LIBS="$LIBS $lib"
-done
-"$LLVM_BIN/llvm-rc" /FO "$OBJ/x86/setup.res" src/setup/setup.rc
-cc x86 src/setup/AC1ModernFixSetup.c "$OBJ/x86/AC1ModernFixSetup.obj"
-# shellcheck disable=SC2086
-link x86 exe entry dist/AC1ModernFix-Setup.exe /subsystem:windows,6.0 /stack:1048576,262144 /dynamicbase /nxcompat \
-  /manifest:no "$OBJ/x86/AC1ModernFixSetup.obj" "$OBJ/x86/setup.res" $LIBS
 
 sh tools/check-build.sh

@@ -8,7 +8,7 @@ Download **AC1ModernFix-Setup** below, unzip it, and run `AC1ModernFix-Setup.exe
 - downloads **Ultimate ASI Loader** (ThirteenAG) and **EaglePatch** (Sergeanur) from their official GitHub releases and checks their hashes
 - installs **AC1AffinityFix** (the many-core CPU crash fix)
 - installs the DirectX controller runtime if `xinput1_3.dll` is missing
-- can uninstall everything again
+- adds AC1 Modern Fix to Windows' Installed apps, so it uninstalls cleanly
 
 Windows may show "Windows protected your PC" because the installer isn't code-signed yet. Click **More info → Run anyway**.
 

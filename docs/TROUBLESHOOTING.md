@@ -2,12 +2,12 @@
 
 ## Installer problems
 
-- **"Windows protected your PC".** The installer isn't code-signed yet, so SmartScreen doesn't recognise it. Click **More info → Run anyway**. The source is in [`src/setup`](../src/setup) and it's built by GitHub Actions from this repo.
+- **"Windows protected your PC".** The installer isn't code-signed yet, so SmartScreen doesn't recognise it. Click **More info → Run anyway**. It's a standard [Inno Setup](https://jrsoftware.org/isinfo.php) installer; its script is [`installer/AC1ModernFix.iss`](../installer/AC1ModernFix.iss) and GitHub Actions builds it from this repo.
 - **My antivirus flagged it.** Installers that download files and put DLLs in a game folder sometimes trip antivirus heuristics. You can check the file on [VirusTotal](https://www.virustotal.com), or skip the installer and follow the [manual install](INSTALL.md).
-- **"Download failed".** Download [`Ultimate-ASI-Loader.zip` (v4.68)](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v4.68/Ultimate-ASI-Loader.zip) and [`EaglePatchAC1.zip` (v1.1)](https://github.com/Sergeanur/EaglePatch/releases/download/v1.1/EaglePatchAC1.zip) yourself, put them next to `AC1ModernFix-Setup.exe` (or leave them in Downloads), and click Install again.
+- **"Download failed".** Download [`Ultimate-ASI-Loader.zip` (v4.68)](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v4.68/Ultimate-ASI-Loader.zip) and [`EaglePatchAC1.zip` (v1.1)](https://github.com/Sergeanur/EaglePatch/releases/download/v1.1/EaglePatchAC1.zip) yourself, or follow the [manual install](INSTALL.md).
 - **It didn't find my game.** Click **Browse** and pick the folder that contains `AssassinsCreed_Dx9.exe`. In Steam: right-click the game → Manage → Browse local files.
 - **"Your exe has been modified".** Restore the original exe (Steam: Properties → Installed Files → Verify integrity of game files), then run the installer again. The Ubisoft Connect version isn't supported by EaglePatch.
-- **Sending a bug report?** Attach `AC1ModernFix-install.log` from your game folder.
+- **Sending a bug report?** Run the installer again and describe what happened; Windows "Installed apps" also lists AC1 Modern Fix if it installed.
 
 ## The game still crashes on launch
 
