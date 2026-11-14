@@ -12,7 +12,17 @@ The Steam and GOG versions of Assassin's Creed (2008) often crash the moment you
 | Xbox controller ignored | The game only recognises the original Xbox 360 pad | **EaglePatch** |
 | `xinput1_3.dll` missing | Not included in Windows 10/11 | DirectX installer already in your game folder |
 
-## Quick install (about 3 minutes)
+## One-click install (about 1 minute)
+
+1. Download **AC1ModernFix-Setup** from the [latest release](https://github.com/meanderpaul/AC1-ModernFix/releases/latest).
+2. Unzip it and run **`AC1ModernFix-Setup.exe`**. Windows may say "Windows protected your PC" because the installer isn't code-signed yet: click **More info → Run anyway**.
+3. Check it found your game folder, click through to **Install**, then tick **Launch Assassin's Creed** on the last page.
+
+The installer finds your Steam or GOG copy, downloads EaglePatch and Ultimate ASI Loader from their official GitHub releases (and checks their hashes), installs AC1AffinityFix, and installs the DirectX controller runtime if it's missing. To remove everything, uninstall **AC1 Modern Fix** from Windows Settings → Apps → Installed apps.
+
+Prefer to do it by hand? Follow the steps below.
+
+## Manual install (about 3 minutes)
 
 You need the **original, unmodified** Steam or GOG game files. EaglePatch checks the exe and won't load on a modified one.
 
@@ -56,12 +66,17 @@ In `scripts\AC1AffinityFix.ini`:
 - `MaxCPUs=8` — how many CPU threads the game may use. Lower it to 4 if you still crash.
 - `Enabled=0` — turn the CPU fix off.
 
+## Other old games: ManyCoreFix
+
+Other games that crash on many-core CPUs (Prototype, Far Cry 2/3, Child of Light and more) can try **[ManyCoreFix](docs/MANYCOREFIX.md)**, the general version of AC1AffinityFix for 32- and 64-bit games. It's in beta; reports welcome.
+
 ## Docs
 
 - [Detailed install guide](docs/INSTALL.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [How it works](docs/HOW-IT-WORKS.md)
-- [Building AC1AffinityFix from source](docs/BUILDING.md)
+- [Building from source](docs/BUILDING.md)
+- [ManyCoreFix](docs/MANYCOREFIX.md)
 
 ## Uninstall
 
