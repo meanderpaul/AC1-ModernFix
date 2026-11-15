@@ -1,5 +1,14 @@
 # Troubleshooting
 
+## Installer problems
+
+- **"Windows protected your PC".** The installer isn't code-signed yet, so SmartScreen doesn't recognise it. Click **More info → Run anyway**. It's a standard [Inno Setup](https://jrsoftware.org/isinfo.php) installer; its script is [`installer/AC1ModernFix.iss`](../installer/AC1ModernFix.iss) and GitHub Actions builds it from this repo.
+- **My antivirus flagged it.** Installers that download files and put DLLs in a game folder sometimes trip antivirus heuristics. You can check the file on [VirusTotal](https://www.virustotal.com), or skip the installer and follow the [manual install](INSTALL.md).
+- **"Download failed".** Download [`Ultimate-ASI-Loader.zip` (v4.68)](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v4.68/Ultimate-ASI-Loader.zip) and [`EaglePatchAC1.zip` (v1.1)](https://github.com/Sergeanur/EaglePatch/releases/download/v1.1/EaglePatchAC1.zip) yourself, or follow the [manual install](INSTALL.md).
+- **It didn't find my game.** Click **Browse** and pick the folder that contains `AssassinsCreed_Dx9.exe`. In Steam: right-click the game → Manage → Browse local files.
+- **"Your exe has been modified".** Restore the original exe (Steam: Properties → Installed Files → Verify integrity of game files), then run the installer again. The Ubisoft Connect version isn't supported by EaglePatch.
+- **Sending a bug report?** Run the installer again and describe what happened; Windows "Installed apps" also lists AC1 Modern Fix if it installed.
+
 ## The game still crashes on launch
 
 1. **Check the exes are original.** EaglePatch silently does nothing on a modified exe. Verify game files in Steam, then reinstall the mods (verifying doesn't touch `dinput8.dll` or `scripts`). See the hashes in [INSTALL.md](INSTALL.md#before-you-start).

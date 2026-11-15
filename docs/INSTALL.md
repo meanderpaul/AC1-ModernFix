@@ -1,6 +1,6 @@
 # Detailed install guide
 
-This walks through the install step by step. If you've modded games before, the [Quick install in the README](../README.md#quick-install-about-3-minutes) is enough.
+This walks through the manual install step by step. The [one-click installer](../README.md#one-click-install-about-1-minute) does all of this for you. If you've modded games before, the [Manual install in the README](../README.md#manual-install-about-3-minutes) is enough.
 
 ## Before you start
 
