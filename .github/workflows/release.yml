@@ -46,17 +46,19 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: Build AC1ModernFix-Setup.exe with Inno Setup
+      - name: Build the installers with Inno Setup
         shell: pwsh
         run: |
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
           if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress; }
-          & $iscc /Q installer\AC1ModernFix.iss
-          if ($LASTEXITCODE -ne 0) { exit 1 }
+          foreach ($iss in "AC1ModernFix", "ManyCoreFix") {
+            & $iscc /Q "installer\$iss.iss"
+            if ($LASTEXITCODE -ne 0) { exit 1 }
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: setup
-          path: dist/AC1ModernFix-Setup.exe
+          path: dist/*-Setup.exe
 
   release:
     needs: [build, installer]
@@ -80,6 +82,7 @@ jobs:
           cp dist/AC1AffinityFix.asi release/AC1AffinityFix.ini release/install.bat pkg/
           (cd pkg && zip -9 "../AC1AffinityFix-$TAG.zip" AC1AffinityFix.asi AC1AffinityFix.ini install.bat)
           (cd dist && zip -9 "../AC1ModernFix-Setup-$TAG.zip" AC1ModernFix-Setup.exe)
+          (cd dist && zip -9 "../ManyCoreFix-Setup-$TAG.zip" ManyCoreFix-Setup.exe)
           mkdir -p mcf && cp dist/ManyCoreFix.asi dist/ManyCoreFix64.asi release/ManyCoreFix.ini docs/MANYCOREFIX.md mcf/
           (cd mcf && zip -9 "../ManyCoreFix-$TAG.zip" *)
           unzip -l "AC1ModernFix-Setup-$TAG.zip"
@@ -88,7 +91,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$TAG" "AC1ModernFix-Setup-$TAG.zip" "AC1AffinityFix-$TAG.zip" "ManyCoreFix-$TAG.zip" \
+          gh release create "$TAG" "AC1ModernFix-Setup-$TAG.zip" "AC1AffinityFix-$TAG.zip" "ManyCoreFix-$TAG.zip" "ManyCoreFix-Setup-$TAG.zip" \
             --title "AC1 Modern Fix $TAG" \
             --notes-file .github/release-notes.md \
             --target "${{ github.sha }}" ${{ inputs.draft && '--draft' || '' }}

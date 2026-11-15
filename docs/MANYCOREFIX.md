@@ -13,6 +13,15 @@ It changes no game files, and CI tests it on Windows on every build (see [`tests
 
 ## Install
 
+### Easiest: the installer
+
+Run **`ManyCoreFix-Setup.exe`**, pick the game's .exe, choose how many CPU threads it may use (start with 8), and click Install. It works out whether the game is 32-bit or 64-bit, downloads the matching Ultimate ASI Loader from its official GitHub release (hash-checked), and puts everything in the game folder. Windows may say "Windows protected your PC" because it isn't code-signed yet: click **More info → Run anyway**.
+
+To try a different number, run it again. To remove it, uninstall **ManyCoreFix** from Windows Settings → Apps → Installed apps (that removes it from every game you installed it to).
+
+### By hand
+
+
 1. Find out whether the game is **32-bit or 64-bit**. Most games before about 2012 are 32-bit; PCGamingWiki lists it under "API".
 2. Get **Ultimate ASI Loader** from [ThirteenAG's releases](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases): `Ultimate-ASI-Loader.zip` for 32-bit games, `Ultimate-ASI-Loader_x64.zip` for 64-bit games. Put `dinput8.dll` next to the game's exe.
 3. Make a `scripts` folder next to the game's exe.

@@ -40,15 +40,16 @@ Pushing a tag such as `v1.1` runs `release.yml`, which builds and publishes the 
 2. `clang` compiles `src/AC1AffinityFix.c` for 32-bit Windows without builtins or stack probes.
 3. `lld-link` links it as a DLL with `DllMain` as the entry point and no default libraries.
 
-**Installer** (`installer/AC1ModernFix.iss`)
+**Installers** (`installer/AC1ModernFix.iss`, `installer/ManyCoreFix.iss`)
 
-The AC1 one-click installer is built with [Inno Setup 6](https://jrsoftware.org/isinfo.php), a widely used installer tool, on Windows. After `./build.sh`:
+Both installers are built with [Inno Setup 6](https://jrsoftware.org/isinfo.php), a widely used installer tool, on Windows. After `./build.sh`:
 
 ```bat
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\AC1ModernFix.iss
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\ManyCoreFix.iss
 ```
 
-It writes `dist\AC1ModernFix-Setup.exe`. CI does this on every push, on a Windows runner.
+They write `dist\AC1ModernFix-Setup.exe` and `dist\ManyCoreFix-Setup.exe`. CI does this on every push, on a Windows runner.
 
 ## What the installer downloads
 
@@ -58,6 +59,7 @@ EaglePatch has no license, so it is never bundled. The installer downloads these
 |---|---|---|
 | `Ultimate-ASI-Loader.zip` | ThirteenAG/Ultimate-ASI-Loader v4.68 | `7517c7d5bd8c475f18e6545b7998df379eed6e2e0a19fcd2139669152f9bcddb` |
 | `EaglePatchAC1.zip` | Sergeanur/EaglePatch v1.1 | `6dc496ac6b298b92fb70c3f90a34e323f77ac88e6ea97544f84e52435038aeea` |
+| `Ultimate-ASI-Loader_x64.zip` (ManyCoreFix, 64-bit games) | ThirteenAG/Ultimate-ASI-Loader v4.68 | `b4d08398c60498cb8772763aefc8db100d0309bed267850731a0dabc9f87e171` |
 
 When EaglePatch releases a new version, update `EpUrl` and `EpSha256` in `installer/AC1ModernFix.iss`.
 
